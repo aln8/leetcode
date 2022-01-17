@@ -1,26 +1,25 @@
 /*
- * @lc app=leetcode.cn id=46 lang=golang
+ * @lc app=leetcode.cn id=47 lang=golang
  *
- * [46] 全排列
+ * [47] 全排列 II
+	dfs
+		123
+	1(23)  1(32)
 
-			dfs
-
-		     	root
-		a         b         c
-	 b    c    a     c    a     b
-     c    a    c     a    b     a
 */
-
 package main
 
+import "sort"
+
 func main() {
-	input := []int{1, 2, 3}
-	permute(input)
+	input := []int{1, 1, 2}
+	permuteUnique(input)
 }
 
 // @lc code=start
-func permute(nums []int) [][]int {
+func permuteUnique(nums []int) [][]int {
 	re := [][]int{}
+	sort.Ints(nums)
 
 	var dfs func(layer int)
 	dfs = func(layer int) {
@@ -31,11 +30,15 @@ func permute(nums []int) [][]int {
 			return
 		}
 
+		vized := make(map[int]struct{}, len(nums))
 		for i := layer; i < len(nums); i++ {
-			// swap
+			if _, ok := vized[nums[i]]; ok {
+				continue
+			}
+			vized[nums[i]] = struct{}{}
 			nums[layer], nums[i] = nums[i], nums[layer]
 			dfs(layer + 1)
-			// swap back
+			// delete(vized, nums[i])
 			nums[layer], nums[i] = nums[i], nums[layer]
 		}
 	}
