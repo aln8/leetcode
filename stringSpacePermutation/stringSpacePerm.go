@@ -9,7 +9,7 @@ func SpacePerm(s string) []string {
 }
 
 func dfs(r []rune, level int, re *[]string, sb []rune) {
-	// basecase
+	// base case
 	if level == len(r)-1 {
 		sb = append(sb, r[level])
 		*re = append(*re, string(sb))

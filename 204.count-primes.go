@@ -11,12 +11,13 @@ func countPrimes(n int) int {
 	for i := 2; i < n; i++ {
 		if !m[i] {
 			count++
-			for j := 2; j * i < n; j++ {
+			for j := 2; j*i < n; j++ {
 				m[j*i] = true
 			}
 		}
 	}
 	return count
 }
+
 // @lc code=end
 

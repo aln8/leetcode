@@ -11,16 +11,16 @@
  * }
  */
 func deleteNode(node *ListNode) {
-    if node == nil {
-        return
-    }
-    n := node.Next
-    // node is not tail
-    if n != nil {
-        node.Val = n.Val
-        node.Next = n.Next
-        n.Next = nil
-    }    
-    // node is tail
+	if node == nil {
+		return
+	}
+	n := node.Next
+	// node is not tail
+	if n != nil {
+		node.Val = n.Val
+		node.Next = n.Next
+		n.Next = nil
+	}
+	// node is tail
 }
 

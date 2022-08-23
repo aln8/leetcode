@@ -27,17 +27,17 @@ func longestPalindrome(s string) string {
 	lgstLeft := 0
 	lgstRight := 0
 	for i := 0; i < len(dp); i++ {
-		for j := i; j >= 0; j++ {
-			if r[i] == r[j] && (i == j || j == i-1 || dp[j-1][i-1]) {
+		for j := i; j >= 0; j-- {
+			if r[i] == r[j] && (i == j || j == i-1 || dp[j+1][i-1]) {
 				dp[j][i] = true
 				if i-j > lgstRight-lgstLeft {
-					lgstLeft = i
-					lgstRight = j
+					lgstLeft = j
+					lgstRight = i
 				}
 			}
 		}
 	}
-	return string(rune[lgstLeft : lgstRight+1])
+	return string(r[lgstLeft : lgstRight+1])
 }
 
 // @lc code=end

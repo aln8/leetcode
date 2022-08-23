@@ -1,4 +1,4 @@
-# Split Numbers into minimum nums of squar sum
+# Split Numbers into minimum nums of square sum
 
 How to cut/split the number into a minimum number of items such that each item is equal to an integer's square value.
 

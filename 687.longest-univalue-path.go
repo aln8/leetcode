@@ -25,7 +25,7 @@ func Triverse(root *TreeNode, res *int) int {
 	}
 	l := Triverse(root.Left, res)
 	r := Triverse(root.Right, res)
-	if l == 0 && r == 0{
+	if l == 0 && r == 0 {
 		return 1
 	}
 	if l == 0 && root.Val == root.Right.Val {
@@ -54,9 +54,7 @@ func Triverse(root *TreeNode, res *int) int {
 		}
 		return r + 1
 	}
-
-	
-	
 }
+
 // @lc code=end
 

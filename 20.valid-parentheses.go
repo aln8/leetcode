@@ -1,43 +1,46 @@
 /*
- * @lc app=leetcode id=20 lang=golang
+ * @lc app=leetcode.cn id=20 lang=golang
  *
- * [20] Valid Parentheses
+ * [20] 有效的括号
  */
 
 // @lc code=start
 func isValid(s string) bool {
-	var stack []byte
-	b := []byte(s)
-	for _, elem := range b {
-		switch elem {
-		case '{':
-			stack = append(stack, '{')
-		case '(':
-			stack = append(stack, '(')
-		case '[':
-			stack = append(stack, '[')
-		case '}':
-			if len(stack) == 0 || stack[len(stack)-1] != '{' {
+	stack := []rune{}
+	for _, r := range s {
+		if r == '(' || r == '[' || r == '{' {
+			// push
+			stack = append(stack, r)
+		}
+
+		if r == ')' || r == ']' || r == '}' {
+			if len(stack) == 0 {
+				return false
+			}
+			if !match(stack[len(stack)-1], r) {
 				return false
 			}
 			stack = stack[:len(stack)-1]
-		case ')':
-			if len(stack) == 0 || stack[len(stack)-1] != '(' {
-				return false
-			}
-			stack = stack[:len(stack)-1]
-		case ']':
-			if len(stack) == 0 || stack[len(stack)-1] != '[' {
-				return false
-			}
-			stack = stack[:len(stack)-1]
-		default:
 		}
 	}
+
 	if len(stack) != 0 {
 		return false
 	}
 	return true
+}
+
+func match(left, right rune) bool {
+	if left == '(' && right == ')' {
+		return true
+	}
+	if left == '[' && right == ']' {
+		return true
+	}
+	if left == '{' && right == '}' {
+		return true
+	}
+	return false
 }
 
 // @lc code=end
