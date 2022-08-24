@@ -14,22 +14,44 @@
  * }
  */
 func levelOrder(root *TreeNode) [][]int {
-	// init
-	var stack []*TreeNode
-	stack = append(stack, root)
-
-	//gen
-
-}
-
-func pop(stack []*TreeNode) (*TreeNode, bool) {
-	if len(stack) > 0 {
-		n := len(stack) - 1
-		node := stack[n]
-		stack = stack[:n]
-		return node, true
+	if root == nil {
+		return [][]int{}
 	}
-	return nil, false
+	// init
+	queue := []*TreeNode{}
+	queue = append(queue, root)
+	queue = append(queue, nil) // append nil for layer+1
+	layerArr := []int{}
+	result := [][]int{}
+
+	var cur *TreeNode
+	for len(queue) != 0 {
+		// popup
+		cur, queue = queue[0], queue[1:]
+		// handle layer change
+		if cur == nil {
+			result = append(result, layerArr)
+			layerArr = []int{}
+			if len(queue) != 0 {
+				queue = append(queue, nil) // append next layer
+			}
+			continue
+		}
+
+		// handle normal val
+		layerArr = append(layerArr, cur.Val)
+
+		// append generation
+		if cur.Left != nil {
+			queue = append(queue, cur.Left)
+		}
+
+		if cur.Right != nil {
+			queue = append(queue, cur.Right)
+		}
+	}
+
+	return result
 }
 
 // @lc code=end

@@ -7,13 +7,7 @@
 // @lc code=start
 func isMatch(s string, p string) bool {
 	// cornercase
-    if !validatePattern(p) {
-		return false
-	}
-	if len(s) == 0 {
-		if len(p) == 0 {
-			return true
-		}
+	if !validatePattern(p) {
 		return false
 	}
 
@@ -44,14 +38,14 @@ func isMatch(s string, p string) bool {
 	if i < len(s) {
 		return false
 	}
-	if j == len(s) - 1 && []rune(s)[j] == '*' {
+	if j == len(s)-1 && []rune(s)[j] == '*' {
 		return true
 	}
 	return false
 }
 
 func match(pattern rune) func(rune) bool {
-	return func (m rune) bool {
+	return func(m rune) bool {
 		if pattern == '.' {
 			return true
 		}
@@ -62,12 +56,12 @@ func match(pattern rune) func(rune) bool {
 	}
 }
 
-
 func validatePattern(p string) bool {
 	if []rune(p)[0] == '*' {
 		return false
 	}
 	return true
 }
+
 // @lc code=end
 

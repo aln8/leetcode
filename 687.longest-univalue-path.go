@@ -14,47 +14,86 @@
  * }
  */
 func longestUnivaluePath(root *TreeNode) int {
-	res := 0
-	_ = Triverse(root, &res)
-	return res
-}
-
-func Triverse(root *TreeNode, res *int) int {
 	if root == nil {
 		return 0
 	}
-	l := Triverse(root.Left, res)
-	r := Triverse(root.Right, res)
+
+	max := 0
+	now := triverse(root, &max)
+	fmt.Println(max, now)
+	return MaxInt(max, now) - 1
+}
+
+// return longest path, and update max each step
+func triverse(root *TreeNode, max *int) int {
+	if root == nil {
+		return 0
+	}
+
+	l := triverse(root.Left, max)
+	r := triverse(root.Right, max)
+
+	// both 0, mean no child, return 1
 	if l == 0 && r == 0 {
 		return 1
 	}
-	if l == 0 && root.Val == root.Right.Val {
-		return r + 1
-	} else {
-		if *res < r {
-			*res = r
+
+	// only right child, check value eq
+	if l == 0 {
+		if root.Val == root.Right.Val {
+			// no need to update max, it can be done in next iter
+			return r + 1
 		}
+		// update max, since path break
+		*max = MaxInt(*max, r)
 		return 1
 	}
-	if r == 0 && root.Val == root.Left.Val {
-		return l + 1
-	} else {
-		if *res < l {
-			*res = l
+
+	// only left child, check value eq
+	if r == 0 {
+		if root.Val == root.Left.Val {
+			return l + 1
 		}
+		*max = MaxInt(*max, l)
 		return 1
 	}
+
+	// both child exist, check if all eq
 	if root.Val == root.Left.Val && root.Val == root.Right.Val {
-		cur := l + r + 1
-		if *res < cur {
-			*res = cur
-		}
+		*max = MaxInt(*max, l+r+1)
 		if l > r {
 			return l + 1
 		}
 		return r + 1
 	}
+
+	// left eq
+	if root.Val == root.Left.Val {
+		return l + 1
+	}
+
+	// right eq
+	if root.Val == root.Right.Val {
+		return r + 1
+	}
+
+	// no eq
+	if l > r {
+		*max = MaxInt(*max, l)
+	}
+	*max = MaxInt(*max, r)
+	return 1
+}
+
+func MaxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // @lc code=end
 
+// 			1
+// 		2       3
+//   4    2   	   5

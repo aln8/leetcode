@@ -5,52 +5,57 @@
  */
 
 // @lc code=start
+/*
+
+dp[i][j]: source i to target j, LCS(size)
+
+		a  b  d  e  c
+	a	1  1  1  1  1
+	d	1  1  2  2  2
+	h	1  1  2  2  2
+	e	1  1  2	 3  3
+	e   1  1  2  3  3
+
+since update only by last line, could use 1d-array store dp
+*/
 func longestCommonSubsequence(source string, target string) int {
 	// corner
 	if len(source) == 0 || len(target) == 0 {
 		return 0
 	}
+
 	// initial
 	dp := make([]int, len(source))
-	for i := range source {
-		if source[i] == target[0] {
-			dp[i] = 1
-		} else if i > 0 {
-			dp[i] = dp[i-1]
-		}
-	}
-	// dp loop
-	max := 0
-	for j := 1; j < len(target); j++ {
-		cur := make([]int, len(dp))
-		copy(cur, dp)
-		for i := range source {
-			plus := 0
-			if source[i] == target[j] {
-				plus = 1
-			}
-			if i == 0 {
-				if plus == 1 {
-					dp[0] = 1
+	cur := make([]int, len(source))
+	for i := range target {
+		// fill cur if same
+		for j := range source {
+			if source[j] == target[i] {
+				if j == 0 {
+					cur[j] = 1
+				} else {
+					cur[j] = max(dp[j-1]+1, cur[j-1])
 				}
 			} else {
-				if plus == 1 {
-					dp[i] = cur[i-1] + 1
-				} else {
-					if dp[i-1] > cur[i] {
-						dp[i] = dp[i-1]
-					} else {
-						dp[i] = cur[i]
-					}
+				if j > 0 && cur[j] < cur[j-1] {
+					cur[j] = cur[j-1]
 				}
 			}
-			if max < dp[i] {
-				max = dp[i]
-			}
+		}
+
+		for k := range dp {
+			dp[k] = cur[k]
 		}
 	}
-	return max
+
+	return dp[len(dp)-1]
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // @lc code=end
-

@@ -18,7 +18,7 @@
 func threeSumClosest(nums []int, target int) int {
 	// len(sums) gurante >= 3
 	sort.Ints(nums)
-	sum := -9999
+	sum := -99999999999
 	for i := 0; i < len(nums)-1; i++ {
 		twoSum := twoSumClosest(nums, i+1, len(nums)-1, target-nums[i])
 		if abs(sum-target) > abs(nums[i]+twoSum-target) {
@@ -29,7 +29,7 @@ func threeSumClosest(nums []int, target int) int {
 }
 
 func twoSumClosest(nums []int, l, r, target int) int {
-	sum := -9999
+	sum := -99999999999
 	for l < r {
 		cur := nums[l] + nums[r]
 		if cur < target {
